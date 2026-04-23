@@ -127,3 +127,4 @@ Register → Deposit Funds → Browse Verified Borrowers in Community → Make O
 | 3 | May 7 – May 13 | Matching & Loan Flow: offers, acceptance, repayment |
 | 4 | May 14 – May 20 | Polish & MLP: notifications, stats, security, UI delight |
 | Buffer | May 21 – May 30 | Testing, demo prep, presentation |
+# citiupstart
