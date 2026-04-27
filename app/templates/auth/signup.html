@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+<div class="form-page">
+  <div class="form-card form-card-wide">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <div class="nav-brand" style="justify-content: center; font-size: 2rem; margin-bottom: 16px;">
+        <span class="brand-primary">121</span><span class="brand-accent">.ai</span>
+      </div>
+      <h1 class="form-title">Create your account</h1>
+      <p class="form-subtitle">Join your community's lending platform</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('auth.signup') }}" novalidate>
+
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label class="form-label">I want to</label>
+        <div class="role-toggle">
+          <input type="radio" id="role-borrower" name="role" value="borrower" checked>
+          <label for="role-borrower">Borrow funds</label>
+          <input type="radio" id="role-lender" name="role" value="lender">
+          <label for="role-lender">Lend &amp; earn</label>
+        </div>
+        <p class="form-hint">You can only hold one role per account.</p>
+      </div>
+
+      <!-- Full Name -->
+      <div class="form-group">
+        <label for="full_name" class="form-label">Full name</label>
+        <input
+          type="text"
+          id="full_name"
+          name="full_name"
+          class="form-input"
+          placeholder="Your legal full name"
+          autocomplete="name"
+          required
+        >
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-input"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <!-- Community -->
+      <div class="form-group">
+        <label for="community_id" class="form-label">Community</label>
+        <select id="community_id" name="community_id" class="form-input" required>
+          <option value="">Select your community</option>
+          {% for c in communities %}
+            <option value="{{ c.community_id }}">{{ c.community_name }}</option>
+          {% endfor %}
+        </select>
+        <p class="form-hint">Your organisation's 121.ai community. You can only transact within this community.</p>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-input"
+          placeholder="At least 8 characters"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirm_password" class="form-label">Confirm password</label>
+        <input
+          type="password"
+          id="confirm_password"
+          name="confirm_password"
+          class="form-input"
+          placeholder="Repeat your password"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top: 8px;">
+        Create Account
+      </button>
+    </form>
+
+    <div class="form-divider">or</div>
+
+    <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted);">
+      Already have an account?
+      <a href="{{ url_for('auth.login') }}" style="color: var(--accent); font-weight: 600;">Log in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

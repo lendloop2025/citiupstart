@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}Borrower Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('borrower.dashboard') }}" class="sidebar-link active">Dashboard</a>
+      <a href="{{ url_for('borrower.assessment') }}" class="sidebar-link">My Assessment</a>
+      <a href="{{ url_for('borrower.new_request') }}" class="sidebar-link">Post Loan Request</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Loan Activity</div>
+      <a href="#" class="sidebar-link">My Offers</a>
+      <a href="#" class="sidebar-link">Repayments</a>
+      <a href="#" class="sidebar-link">Credit History</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Community</div>
+      <a href="{{ url_for('borrower.lenders') }}" class="sidebar-link">Browse Lenders</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+
+    <div class="page-header">
+      <h1 class="page-title">Welcome, {{ session.get('full_name', '').split()[0] }}</h1>
+      <p class="page-subtitle">
+        Your borrower overview · <strong>121.ai Demo Community</strong>
+      </p>
+    </div>
+
+    {% if not borrower or borrower.credibility_score == 0 %}
+    <div class="banner">
+      <div>
+        <div class="banner-title">Complete your credibility assessment</div>
+        <p class="banner-text">
+          You need a score before you can post a loan request. It takes about 5 minutes
+          and unlocks the full platform.
+        </p>
+      </div>
+      <a href="{{ url_for('borrower.assessment') }}" class="btn btn-primary" style="flex-shrink: 0;">
+        Start Assessment
+      </a>
+    </div>
+    {% endif %}
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Credibility Score</div>
+        {% if borrower and borrower.credibility_score > 0 %}
+          <div class="stat-value {{ 'green' if borrower.credibility_score >= 70 else ('amber' if borrower.credibility_score >= 40 else 'red') }}">
+            {{ borrower.credibility_score }}<span style="font-size:1rem; color:var(--text-muted);">/100</span>
+          </div>
+        {% else %}
+          <div class="stat-value muted">—</div>
+        {% endif %}
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Loans</div>
+        <div class="stat-value">{{ borrower.active_loans if borrower else 0 }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Borrowed</div>
+        <div class="stat-value">€{{ '%.2f'|format(borrower.total_borrowed if borrower else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">On-time Payments</div>
+        <div class="stat-value green">{{ borrower.on_time_payments if borrower else 0 }}</div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-bottom: 16px;">
+      <span class="section-heading">Quick Actions</span>
+    </div>
+    <div class="quick-actions" style="margin-bottom: 40px;">
+      {% if borrower and borrower.credibility_score > 0 %}
+        <a href="{{ url_for('borrower.new_request') }}" class="btn btn-primary">Post Loan Request</a>
+        <a href="{{ url_for('borrower.assessment_view') }}" class="btn btn-outline">View My Score</a>
+      {% else %}
+        <a href="{{ url_for('borrower.assessment') }}" class="btn btn-primary">Start Assessment</a>
+      {% endif %}
+      <a href="{{ url_for('borrower.lenders') }}" class="btn btn-outline">Browse Lenders</a>
+    </div>
+
+    <!-- Active Loan Request -->
+    {% if active_request %}
+    <div class="section-header" style="margin-bottom: 16px;">
+      <span class="section-heading">Your Active Loan Request</span>
+      <span class="badge badge-green">Live</span>
+    </div>
+    <div class="card">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; margin-bottom: 16px;">
+        <div>
+          <div class="stat-label">Amount</div>
+          <div style="font-size: 1.4rem; font-weight: 700;">€{{ '{:,.0f}'.format(active_request.amount) }}</div>
+        </div>
+        <div>
+          <div class="stat-label">Purpose</div>
+          <div style="font-weight: 700; margin-top: 8px;">{{ active_request.purpose }}</div>
+        </div>
+        <div>
+          <div class="stat-label">Duration</div>
+          <div style="font-weight: 700; margin-top: 8px;">{{ active_request.duration_months }} months</div>
+        </div>
+        <div>
+          <div class="stat-label">Offers</div>
+          <div style="font-weight: 700; margin-top: 8px; color: var(--accent);">{{ active_request.offers_count }}</div>
+        </div>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted);">
+        Posted {{ active_request.created_at.strftime('%d %b %Y') if active_request.created_at else '' }}
+      </div>
+    </div>
+
+    {% else %}
+    <div class="section-header">
+      <span class="section-heading">Active Loan</span>
+    </div>
+    <div class="card" style="margin-top: 16px;">
+      <div class="empty-state">
+        <div class="empty-state-icon">&#9749;</div>
+        <div class="empty-state-title">No active loan</div>
+        <p class="empty-state-text">
+          {% if borrower and borrower.credibility_score > 0 %}
+            Your score is ready. Post a loan request to start receiving offers from lenders.
+          {% else %}
+            Complete your credibility assessment first, then post a loan request.
+          {% endif %}
+        </p>
+        <a href="{{ url_for('borrower.assessment') if not borrower or borrower.credibility_score == 0 else url_for('borrower.new_request') }}"
+           class="btn btn-primary">
+          {% if borrower and borrower.credibility_score > 0 %}Post a Loan Request{% else %}Start Assessment{% endif %}
+        </a>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

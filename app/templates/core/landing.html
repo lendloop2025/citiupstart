@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="landing-hero">
+    <div class="landing-tag">Closed-Environment Peer-to-Peer Lending</div>
+    <h1 class="landing-title">
+      Lending that works<br>within your <span>community</span>
+    </h1>
+    <p class="landing-subtitle">
+      121.ai connects lenders and borrowers within a single trusted organisation —
+      your university, company, or cooperative. Structured, fair, and fully accountable.
+    </p>
+    <div class="landing-ctas">
+      <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-lg">Get Started</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-lg">Log In</a>
+    </div>
+  </div>
+</section>
+
+<div class="landing-divider"></div>
+
+<!-- How It Works -->
+<section class="landing-section">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">Simple, transparent, community-led</h2>
+  <div class="how-it-works">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3 class="step-title">Join your community</h3>
+      <p class="step-text">
+        Register with your organisation's 121.ai platform. Every member is a verified peer
+        within the same closed community — no strangers.
+      </p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3 class="step-title">Get assessed or deposit</h3>
+      <p class="step-text">
+        Borrowers complete a credibility assessment and receive a transparent score.
+        Lenders deposit funds into their platform balance and start browsing.
+      </p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3 class="step-title">Lend, borrow, repay</h3>
+      <p class="step-text">
+        Lenders browse verified borrowers and make offers on their terms.
+        Borrowers accept and repay on a clear schedule. Every step recorded.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="landing-divider"></div>
+
+<!-- Why Closed Community -->
+<section class="landing-section">
+  <div class="why-closed-grid">
+    <div>
+      <div class="section-label">Why closed?</div>
+      <h2 class="section-title">Trust bounded by community</h2>
+      <p class="section-text">
+        Unlike open P2P marketplaces, 121.ai only connects people who already share a common
+        bond — colleagues, classmates, co-op members. This shared context reduces risk,
+        increases accountability, and makes every transaction more meaningful.
+      </p>
+      <br>
+      <p class="section-text">
+        Your enterprise deploys 121.ai for your people. Every loan, every repayment, every
+        credibility point stays inside the community fence.
+      </p>
+    </div>
+    <div class="mock-card">
+      <div style="margin-bottom: 16px;">
+        <span class="badge badge-green" style="margin-bottom: 8px; display: inline-block;">Borrower</span>
+        <div style="font-weight: 700; font-size: 1rem;">Credibility Score: <span style="color: var(--green);">74 / 100</span></div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+          NCI Community · 2 loans completed · All on time
+        </div>
+      </div>
+      <hr style="border: none; border-top: 1px solid var(--border-subtle); margin-bottom: 16px;">
+      <div style="margin-bottom: 16px;">
+        <span class="badge badge-blue" style="margin-bottom: 8px; display: inline-block;">Loan Request</span>
+        <div style="font-weight: 700;">€2,500 · Education · 12 months</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">3 lenders have made offers</div>
+      </div>
+      <span class="badge badge-green">Active · Community-verified</span>
+    </div>
+  </div>
+</section>
+
+<div class="landing-divider"></div>
+
+<!-- Impact Section -->
+<section class="landing-section">
+  <div class="section-label">Bigger picture</div>
+  <h2 class="section-title">Building financial identities for the invisible</h2>
+  <p class="section-text" style="margin-bottom: 40px;">
+    Millions of people — international students, immigrants, first-time earners — are
+    financially capable but financially invisible. They have no credit history, so they get
+    no loans. 121.ai changes that, one community at a time.
+  </p>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="impact-who">For Individuals</div>
+      <h3 class="impact-title">A dignified path into the financial system</h3>
+      <p class="impact-text">
+        Every repayment made is a data point that builds a verifiable financial identity —
+        opening doors that were previously closed regardless of character or capability.
+      </p>
+    </div>
+    <div class="impact-card">
+      <div class="impact-who">For Governments</div>
+      <h3 class="impact-title">Real credit data for invisible populations</h3>
+      <p class="impact-text">
+        Granular credit behaviour data for populations absent from national registers —
+        supporting evidence-based policy for financial inclusion and housing.
+      </p>
+    </div>
+    <div class="impact-card">
+      <div class="impact-who">For Banks</div>
+      <h3 class="impact-title">A trusted onboarding pathway</h3>
+      <p class="impact-text">
+        121.ai credibility records serve as a first signal of reliability — a structured
+        bridge between the informal and formal financial world.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom CTA -->
+<section class="cta-section">
+  <div style="max-width: 560px; margin: 0 auto; text-align: center;">
+    <h2 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 12px;">
+      Ready to get started?
+    </h2>
+    <p style="color: var(--text-muted); margin-bottom: 32px; line-height: 1.7;">
+      Whether you have funds to lend or a need to borrow — join your community
+      on 121.ai and take the first step.
+    </p>
+    <div class="landing-ctas">
+      <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-lg">Create Account</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-lg">Log In</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

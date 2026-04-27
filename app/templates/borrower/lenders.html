@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Browse Lenders{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('borrower.dashboard') }}" class="sidebar-link">Dashboard</a>
+      <a href="{{ url_for('borrower.assessment') }}" class="sidebar-link">My Assessment</a>
+      <a href="{{ url_for('borrower.new_request') }}" class="sidebar-link">Post Loan Request</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Activity</div>
+      <a href="#" class="sidebar-link">My Offers</a>
+      <a href="#" class="sidebar-link">Repayments</a>
+      <a href="#" class="sidebar-link">Credit History</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Community</div>
+      <a href="{{ url_for('borrower.lenders') }}" class="sidebar-link active">Browse Lenders</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+    <div class="listing-header">
+      <div>
+        <h1 class="page-title">Lenders in Your Community</h1>
+        <p class="listing-count">{{ lenders|length }} lender{{ 's' if lenders|length != 1 }} with available funds</p>
+      </div>
+    </div>
+
+    {% if lenders %}
+    <div class="cards-grid">
+      {% for l in lenders %}
+      <div class="borrower-card">
+        <div class="card-top">
+          <div class="avatar avatar-green">{{ l.full_name[0] }}</div>
+          <div>
+            <div class="card-name">Lender {{ loop.index }}</div>
+            <div class="card-meta">Community member</div>
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="card-stat">
+            <div class="card-stat-label">Available</div>
+            <div class="card-stat-value" style="color: var(--green);">
+              ~€{{ '{:,.0f}'.format(l.balance_display) }}
+            </div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Loans Given</div>
+            <div class="card-stat-value">{{ l.total_loans_given }}</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Completed</div>
+            <div class="card-stat-value">{{ l.completed_loans }}</div>
+          </div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
+          Post a loan request to receive offers from lenders like this one.
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="card" style="margin-top: 24px; background: var(--accent-dim); border-color: rgba(37,99,235,0.2);">
+      <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7;">
+        <strong style="color: var(--text);">Privacy note:</strong>
+        Lender balances are rounded to the nearest €100 for privacy.
+        To receive an offer, post a loan request from your dashboard.
+      </div>
+    </div>
+
+    {% else %}
+    <div class="card">
+      <div class="empty-state">
+        <div class="empty-state-icon">&#9729;</div>
+        <div class="empty-state-title">No lenders available yet</div>
+        <p class="empty-state-text">
+          No lenders in your community have deposited funds yet.
+          Check back soon or post your loan request to notify the community.
+        </p>
+        <a href="{{ url_for('borrower.new_request') }}" class="btn btn-primary">Post Loan Request</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

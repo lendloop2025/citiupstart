@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Lender Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('lender.dashboard') }}" class="sidebar-link active">Dashboard</a>
+      <a href="{{ url_for('lender.deposit') }}" class="sidebar-link">Deposit Funds</a>
+      <a href="{{ url_for('lender.borrowers') }}" class="sidebar-link">Browse Borrowers</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Activity</div>
+      <a href="#" class="sidebar-link">My Loans</a>
+      <a href="#" class="sidebar-link">Transactions</a>
+      <a href="#" class="sidebar-link">Returns</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('lender.account') }}" class="sidebar-link">My Account</a>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+
+    <div class="page-header">
+      <h1 class="page-title">Welcome back, {{ session.get('full_name', '').split()[0] }}</h1>
+      <p class="page-subtitle">
+        Here's your lending overview · <strong>121.ai Demo Community</strong>
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Available Balance</div>
+        <div class="stat-value green">€{{ '%.2f'|format(lender.available_balance if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Deposited</div>
+        <div class="stat-value">€{{ '%.2f'|format(lender.total_deposited if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Lent Out</div>
+        <div class="stat-value">€{{ '%.2f'|format(lender.total_lent if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Interest Earned</div>
+        <div class="stat-value green">€{{ '%.2f'|format(lender.total_earned_interest if lender else 0) }}</div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-bottom: 16px;">
+      <span class="section-heading">Quick Actions</span>
+    </div>
+    <div class="quick-actions" style="margin-bottom: 40px;">
+      <a href="{{ url_for('lender.deposit') }}" class="btn btn-primary">Deposit Funds</a>
+      <a href="{{ url_for('lender.borrowers') }}" class="btn btn-outline">Browse Borrowers</a>
+      <a href="{{ url_for('lender.account') }}" class="btn btn-outline">My Account</a>
+    </div>
+
+    <div class="section-header">
+      <span class="section-heading">Active Loans</span>
+      <span class="badge badge-blue">{{ lender.active_loans if lender else 0 }} active</span>
+    </div>
+
+    <div class="card" style="margin-top: 16px;">
+      <div class="empty-state">
+        <div class="empty-state-icon">&#9729;</div>
+        <div class="empty-state-title">No active loans yet</div>
+        <p class="empty-state-text">
+          {% if lender and lender.available_balance > 0 %}
+            You have €{{ '%.2f'|format(lender.available_balance) }} available. Browse borrowers in your community to make your first offer.
+          {% else %}
+            Deposit funds first, then browse borrowers to make your first loan offer.
+          {% endif %}
+        </p>
+        {% if lender and lender.available_balance > 0 %}
+          <a href="{{ url_for('lender.borrowers') }}" class="btn btn-primary">Browse Borrowers</a>
+        {% else %}
+          <a href="{{ url_for('lender.deposit') }}" class="btn btn-primary">Deposit Funds</a>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

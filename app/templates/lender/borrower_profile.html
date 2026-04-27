@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% block title %}Borrower Profile{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('lender.dashboard') }}" class="sidebar-link">Dashboard</a>
+      <a href="{{ url_for('lender.deposit') }}" class="sidebar-link">Deposit Funds</a>
+      <a href="{{ url_for('lender.borrowers') }}" class="sidebar-link active">Browse Borrowers</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Activity</div>
+      <a href="#" class="sidebar-link">My Loans</a>
+      <a href="#" class="sidebar-link">Transactions</a>
+      <a href="#" class="sidebar-link">Returns</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('lender.account') }}" class="sidebar-link">My Account</a>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+
+    <div style="margin-bottom: 20px;">
+      <a href="{{ url_for('lender.borrowers') }}" style="font-size:0.85rem; color:var(--text-muted);">
+        ← Back to Borrowers
+      </a>
+    </div>
+
+    <div class="profile-layout">
+
+      <!-- Left: Score sidebar -->
+      <div class="profile-sidebar">
+        <div class="profile-score-card">
+          <div class="score-circle-wrap">
+            <div class="score-circle {{ label.css }}">
+              <span class="score-circle-num">{{ borrower.credibility_score }}</span>
+              <span class="score-circle-denom">/100</span>
+            </div>
+            <span class="score-circle-label {{ label.css }}">{{ label.label }}</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; line-height: 1.6;">
+            Community member since<br>
+            <strong style="color: var(--text);">
+              {{ borrower.member_since.strftime('%b %Y') if borrower.member_since else 'N/A' }}
+            </strong>
+          </div>
+        </div>
+
+        <!-- Score breakdown mini -->
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: 14px; font-size: 0.85rem;">Score Breakdown</div>
+          <div class="score-breakdown">
+            {% for label_text, pts, max_pts in [
+              ('Identity',  borrower.identity_verification_score, 20),
+              ('Financial', borrower.financial_strength_score,    30),
+              ('Credit',    borrower.credit_history_score,        25),
+              ('Stability', borrower.stability_score,             15),
+              ('Reputation',borrower.platform_reputation_score,   10),
+            ] %}
+              {% set pct = (pts / max_pts * 100)|round|int %}
+              <div class="score-row" style="grid-template-columns: 80px 1fr 42px;">
+                <div class="score-row-label" style="font-size:0.75rem;">{{ label_text }}</div>
+                <div class="score-bar-track">
+                  <div class="score-bar-fill {{ 'green' if pct >= 70 else ('amber' if pct >= 40 else 'red') }}"
+                       style="width:{{ pct }}%"></div>
+                </div>
+                <div class="score-row-pts" style="font-size:0.75rem;">{{ pts }}/{{ max_pts }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Loan history stats -->
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: 14px; font-size: 0.85rem;">Loan History</div>
+          <table class="info-table">
+            <tr>
+              <td>On-time Payments</td>
+              <td style="color: var(--green); font-weight: 700;">{{ borrower.on_time_payments }}</td>
+            </tr>
+            <tr>
+              <td>Late Payments</td>
+              <td style="color: {{ 'var(--amber)' if borrower.late_payments > 0 else 'var(--text)' }};">
+                {{ borrower.late_payments }}
+              </td>
+            </tr>
+            <tr>
+              <td>Defaults</td>
+              <td style="color: {{ 'var(--red)' if borrower.defaulted_loans > 0 else 'var(--text)' }};">
+                {{ borrower.defaulted_loans }}
+              </td>
+            </tr>
+            <tr>
+              <td>Completed Loans</td>
+              <td>{{ borrower.completed_loans }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right: Detail content -->
+      <div class="profile-main-content">
+
+        <!-- Loan Request -->
+        {% if loan_request %}
+        <div class="card" style="border-color: var(--accent); border-width: 2px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <div class="section-heading">Active Loan Request</div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px; margin-bottom: 16px;">
+            <div>
+              <div class="stat-label">Amount</div>
+              <div class="stat-value" style="font-size: 1.4rem;">€{{ '{:,.0f}'.format(loan_request.amount) }}</div>
+            </div>
+            <div>
+              <div class="stat-label">Purpose</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin-top: 10px;">{{ loan_request.purpose }}</div>
+            </div>
+            <div>
+              <div class="stat-label">Duration</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin-top: 10px;">{{ loan_request.duration_months }} months</div>
+            </div>
+            <div>
+              <div class="stat-label">Posted</div>
+              <div style="font-weight: 600; font-size: 0.85rem; margin-top: 10px; color: var(--text-muted);">
+                {{ loan_request.created_at.strftime('%d %b %Y') if loan_request.created_at else 'N/A' }}
+              </div>
+            </div>
+          </div>
+          {% if loan_request.additional_notes %}
+          <div style="background: var(--surface-2); border-radius: var(--radius-xs); padding: 12px; font-size: 0.875rem; color: var(--text-muted);">
+            "{{ loan_request.additional_notes }}"
+          </div>
+          {% endif %}
+          <div style="margin-top: 20px;">
+            <a href="#" class="btn btn-primary">Make an Offer <span style="opacity:0.7">— Sprint 3</span></a>
+          </div>
+        </div>
+        {% else %}
+        <div class="card">
+          <div class="empty-state" style="padding: 24px;">
+            <div class="empty-state-title" style="margin-bottom: 8px;">No active loan request</div>
+            <p class="empty-state-text" style="margin-bottom: 0;">
+              This borrower hasn't posted an active loan request yet.
+            </p>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Assessment details -->
+        {% if assessment %}
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: 16px;">Employment &amp; Financial Profile</div>
+          <table class="info-table">
+            <tr>
+              <td>Employment Status</td>
+              <td>{{ assessment.employment_status or '—' }}</td>
+            </tr>
+            {% if assessment.company_name %}
+            <tr>
+              <td>Employer</td>
+              <td>{{ assessment.company_name }}
+                {% if assessment.job_title %} · {{ assessment.job_title }}{% endif %}
+              </td>
+            </tr>
+            {% endif %}
+            {% if assessment.years_with_employer %}
+            <tr>
+              <td>Years with Employer</td>
+              <td>{{ assessment.years_with_employer }} year{{ 's' if assessment.years_with_employer != 1 }}</td>
+            </tr>
+            {% endif %}
+            {% if assessment.business_name %}
+            <tr>
+              <td>Business</td>
+              <td>{{ assessment.business_name }}
+                {% if assessment.years_in_business %} · {{ assessment.years_in_business }} yr(s){% endif %}
+              </td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td>Salary Band</td>
+              <td>{{ assessment.salary_band or '—' }}</td>
+            </tr>
+            <tr>
+              <td>Government ID</td>
+              <td>{{ assessment.id_type if assessment.id_type else '—' }}
+                {% if assessment.id_type and assessment.id_number %}
+                  <span style="color: var(--green); margin-left: 4px;">✓</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Reference</td>
+              <td>
+                {% if assessment.reference_name %}
+                  {{ assessment.reference_name }}
+                  {% if assessment.reference_relationship %} ({{ assessment.reference_relationship }}){% endif %}
+                  <span style="color: var(--green);">✓</span>
+                {% else %}
+                  Not provided
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
