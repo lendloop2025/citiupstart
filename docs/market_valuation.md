@@ -1,298 +1,230 @@
-# 121.ai by LendLoop — Market Valuation & Monthly Revenue Model
-**Document Purpose:** Dragon's Den / Investor Pitch — Realistic Market Valuation  
+# 121.ai by LendLoop — Market Valuation & Dragon's Den Pitch
+**Document Purpose:** Dragon's Den Pitch — Realistic Valuation for Operator Investors  
 **Date:** May 2026  
 **Prepared for:** LendLoop Team — NCI Citi UpStart Hackathon
 
 ---
 
-## Executive Summary
+## The Ask
 
-121.ai is a closed-community P2P lending platform targeting the Irish and EU regulated market. This document presents a realistic, bottom-up valuation grounded in Irish market data, EU P2P benchmarks, and defensible growth hypotheses. The model is structured for a Dragon's Den pitch — not a fantasy projection, but a reasoned argument a sophisticated investor can stress-test.
+> **€75,000 for 10% equity — pre-money valuation of €750,000.**
 
-**Recommended Dragon's Den Ask:**  
-> **€250,000 for 10% equity — implying a €2.5M company valuation at MVP stage.**
+This document explains how we arrived at that number, why it is honest, and why it is the right entry point for a strategic investor.
 
 ---
 
-## 1. The Market Opportunity
+## 1. Valuation Philosophy — Why We Start Here, Not With Revenue
 
-### 1.1 Total Addressable Market (TAM)
+Most student pitches open with ambitious revenue projections. We are not doing that. Revenue projections for a pre-revenue startup are hypotheses, not facts, and experienced investors know this. Instead, we value what actually exists today using the **Berkus Method** — the standard pre-revenue valuation framework used by angel investors globally. It rewards what a team has genuinely built and discounts what it has not.
+
+The revenue model follows in Section 3 as supporting evidence, not as the valuation anchor.
+
+---
+
+## 2. Pre-Money Valuation — Berkus Method
+
+The Berkus Method assigns value across five dimensions, each worth up to €250,000. The total gives the pre-money valuation.
+
+| Dimension | Max Value | Our Score | Rationale |
+|---|---|---|---|
+| **Sound, validated idea** | €250,000 | €200,000 | Real, documented gap — 660K+ credit-invisible residents in Ireland alone. Closed-community P2P has no direct Irish competitor. IDF (Invention Disclosure Form) filed — the concept is legally protected. |
+| **Working prototype / MLP** | €250,000 | €175,000 | A functional MLP is built: auth, credibility scoring, loan request flow, lender dashboard, matching engine, repayment simulation. Not a slide deck — working software. |
+| **Quality of management team** | €250,000 | €100,000 | A six-person student team with defined roles (lead dev, risk, business, security, fintech, cloud). Honest discount applied — no prior company exits, no industry hires yet. Hunger and complementary skills present. |
+| **Strategic relationships** | €250,000 | €150,000 | Active mentorship from Citi Bank. NCI academic backing. Erasmus involvement. Regulatory path identified (ECSPR via Central Bank of Ireland). Enterprise Ireland on the horizon. |
+| **Product in market / early revenue** | €250,000 | €0 | Pre-revenue. No paying enterprise clients yet. No discount applied here — we are not pretending otherwise. |
+| **Total** | **€1,250,000** | **€625,000** | |
+
+**Applied pre-money valuation: €750,000**
+
+We round €625,000 to €750,000. The €125,000 adjustment reflects the filed IDF (tangible IP asset) and the ECSPR regulatory path — both real, both de-risking factors that a pure Berkus score does not capture but an informed investor would credit.
+
+This is a conservative, honest number for a pre-revenue student startup. It does not assume the revenue projections in Section 3 come true. It values only what exists today.
+
+---
+
+## 3. The Market — Why This Opportunity Is Real
+
+### 3.1 The Problem We Are Solving
+
+Within any closed community — a company, a university, a cooperative — members face short-term liquidity needs. Banks are slow and impersonal. Informal borrowing creates social friction. Nothing in between exists in a structured, compliant form.
+
+More critically: a growing segment of every community is **financially invisible**. They are not high-risk borrowers. They simply have no credit record. In Ireland:
+
+| Population Segment | Estimated Size | Credit Status |
+|---|---|---|
+| Non-Irish nationals resident in Ireland | ~660,000 (CSO 2022) | Majority credit-invisible on arrival |
+| International students | ~40,000+ | No Irish credit history |
+| First-time workers (under 25) | ~200,000+ | Thin or no credit file |
+
+Globally, over **1.1 billion people** have no formal financial identity (World Bank, 2022). They are locked out of mortgages, car finance, and basic banking products — not by their behaviour, but by the absence of a record.
+
+**121.ai gives them a structured, community-backed environment to build one.**
+
+### 3.2 Market Size
 
 | Market | Size | Source Basis |
 |---|---|---|
-| Global P2P lending market | €315B (2025) | 26% CAGR since 2020 |
-| EU P2P lending market | €7.2B (2025) | KPMG FinTech Pulse |
 | Irish consumer credit market | €3.2B annually | Central Bank of Ireland, 2024 |
-| Irish P2P lending (current penetration) | <€100M | Linked Finance benchmark |
+| EU P2P lending market | €7.2B (2025, growing at 26% CAGR) | KPMG FinTech Pulse |
+| Irish enterprises with 100+ employees | 12,000+ | CSO Business Register |
+| Irish universities (potential communities) | 7 major institutions | HEA register |
 
-**TAM framing for 121.ai:** Any closed professional or academic community with members who have short-term liquidity needs and limited access to traditional credit is a deployment target. There are **over 12,000 registered enterprises in Ireland with 100+ employees**, plus **7 major universities** with 10,000–30,000 students each.
+121.ai does not need a large slice of the €3.2B Irish credit market to be valuable. It needs to be the default infrastructure for **community-level lending** — a category that currently does not exist in a structured form in Ireland.
 
-### 1.2 Serviceable Addressable Market (SAM)
+### 3.3 No Direct Competitor in This Category
 
-121.ai does not compete in the full P2P market. It targets only **closed communities** — those willing to deploy a branded lending infrastructure. Conservative SAM assumptions:
+| Platform | Type | Why They Are Not 121.ai |
+|---|---|---|
+| Linked Finance | Open P2P (SME loans) | Public marketplace, not community-scoped |
+| Grid Finance | SME lending | Not P2P, not community-based |
+| Bondora | Open P2P (retail, EU) | Public marketplace, different trust model |
+| Credit unions | Community lending | Regulated differently, no P2P matching engine |
 
-- **Target communities in Ireland (Year 1–2):** Large Dublin-based multinationals (Google, Meta, Microsoft, Amazon, Accenture), Irish universities, large cooperatives
-- **Average community size on platform:** 400 enrolled members
-- **Communities reachable in 24 months:** 40
-- **Total addressable members (Year 2):** 40 × 400 = 16,000
-
-**Irish SAM (loan origination):** €40M annually at steady state  
-**EU SAM (2 countries, Year 3):** €200M+ annually
-
-### 1.3 Serviceable Obtainable Market (SOM) — The Realistic Capture
-
-121.ai targets **1–2% of Irish community-based loan demand** in Years 1–2, scaling to **5–8% by Year 3**. This is the number used in revenue projections below.
+121.ai's closed-community model is a distinct category. It is not competing with open P2P platforms. It is creating a new deployment pattern — community-as-a-lender-network — that no Irish fintech currently owns.
 
 ---
 
-## 2. The Revenue Model
+## 4. The Revenue Model — Supporting Evidence, Not the Valuation
 
-### 2.1 How 121.ai Makes Money
+This section demonstrates that the path to revenue is real and traceable. It is not the valuation anchor, but it answers the investor's question: *how does this make money?*
 
-| Revenue Stream | Rate | Active From |
+### 4.1 How 121.ai Earns
+
+| Revenue Stream | Rate | When It Activates |
 |---|---|---|
-| Interest share (primary) | 15% of borrower interest paid | Month 1 |
-| Interest share (with 3rd-party integrations) | 10% of borrower interest paid | Month 6+ |
-| Enterprise platform licence | €750–€1,500/month per community | Month 13+ |
+| Interest share (primary) | 15% of interest paid by borrower | From first active loan |
+| Interest share (with 3rd-party integrations) | 10% of interest paid | Month 6+ |
+| Enterprise platform licence | €750–€1,500/month per community | Month 13+ (post-adoption) |
 | Late payment fees | Case-by-case | Month 1 |
-| Data insights (future) | B2B licensing to banks/government | Year 3+ |
 
-**Note:** Enterprise communities are NOT charged in the early stage. Revenue is purely from the interest cut. This is the correct growth-over-revenue approach for marketplace adoption.
+Enterprise communities are **not charged in the early stage**. Adoption comes first. This is intentional — it removes the barrier to the first 10 deployments.
 
-### 2.2 Per-Loan Revenue Calculation
+### 4.2 Per-Loan Revenue
 
-| Assumption | Value | Basis |
+| Input | Value | Basis |
 |---|---|---|
-| Average loan amount | €5,000 | Irish personal loan average; conservative for professional community |
-| Borrower interest rate | 10% p.a. | Below bank personal loan rates (8–15%); fair for community |
-| Average loan duration | 12 months | Typical short-term community loan |
+| Average loan amount | €5,000 | Irish personal loan median (BPFI 2024: €4,800) |
+| Borrower interest rate | 10% p.a. | Below bank rates (8.5–13.9%); fair for community |
+| Loan duration | 12 months | Typical short-term community lending |
 | Annual interest per loan | €500 | €5,000 × 10% |
-| Platform cut (15%) | €75 per loan per year | Primary revenue rate |
+| Platform cut (15%) | €75/year per loan | Primary revenue rate |
 | **Monthly revenue per active loan** | **€6.25** | €75 ÷ 12 |
 
-### 2.3 Per-Community Revenue (Steady State)
+### 4.3 Monthly Revenue Trajectory
 
-| Metric | Value | Basis |
-|---|---|---|
-| Enrolled members per community | 400 | Mid-size MNC department or university cohort |
-| Active borrowers (10% uptake) | 40 | Conservative; P2P platforms see 8–15% utilisation |
-| Active loans outstanding (steady state) | 30 | 40 eligible × 75% matching success rate |
-| **Monthly revenue per community** | **€187.50** | 30 loans × €6.25 |
+These projections assume a **student team** with limited bandwidth. Targets are conservative.
 
----
-
-## 3. Monthly Revenue Projections
-
-### 3.1 The Growth Curve (Month-by-Month)
-
-| Phase | Timeframe | Active Communities | Active Loans | Monthly Revenue | Notes |
-|---|---|---|---|---|---|
-| **Pilot** | Month 1–3 | 1 | 15 | €94 | Single pilot, ramp-up period |
-| **Early Traction** | Month 4–6 | 3 | 75 | €469 | 3 enterprise clients live |
-| **Growth** | Month 7–9 | 6 | 180 | €1,125 | Word-of-mouth + hackathon press |
-| **Scale Entry** | Month 10–12 | 10 | 320 | €2,000 | 10 communities, Year 1 run rate |
-| **Revenue Inflection** | Month 13–15 | 18 | 600 | €3,750 + €13,500 licence = **€17,250** | Enterprise licence introduced |
-| **Year 2 Mid** | Month 16–18 | 28 | 950 | €5,938 + €21,000 licence = **€26,938** | Dublin MNC cluster targeted |
-| **Year 2 End** | Month 19–24 | 40 | 1,400 | €8,750 + €36,000 licence = **€44,750** | Irish market near saturation + EU pilot |
-
-### 3.2 Annual Revenue Summary
-
-| Year | Annual Revenue (Conservative) | Annual Revenue (Optimistic) | Key Driver |
-|---|---|---|---|
-| Year 1 | €18,000 | €32,000 | Interest share only; 10 communities |
-| Year 2 | €320,000 | €537,000 | Enterprise licences live; 40 communities |
-| Year 3 | €850,000 | €1.4M | EU expansion + data monetisation pilot |
-
-**Year 2 ARR (run rate at Month 24):** ~€537,000 — the anchor figure for valuation.
-
----
-
-## 4. Gross Merchandise Value (GMV) — Loan Volume on Platform
-
-GMV is the total value of loans originated through 121.ai. Investors in fintech platforms track this as the leading indicator of platform health.
-
-| Timeframe | Active Loans | Avg Loan | Monthly GMV | Annual GMV |
+| Phase | Timeframe | Communities | Active Loans | Monthly Revenue |
 |---|---|---|---|---|
-| Month 6 | 75 | €5,000 | €375,000 | €4.5M |
-| Month 12 | 320 | €5,000 | €1.6M | €19.2M |
-| Month 18 | 600 | €5,000 | €3.0M | €36M |
-| Month 24 | 1,400 | €5,000 | €7.0M | €84M |
+| Pilot | Month 1–3 | 1 | 15 | ~€94 |
+| Early traction | Month 4–6 | 3 | 70 | ~€438 |
+| Growth | Month 7–12 | 8 | 220 | ~€1,375 |
+| Scale entry | Month 13–18 | 15 | 450 | €2,813 + €11,250 licence = **€14,063** |
+| Year 2 run rate | Month 19–24 | 25 | 800 | €5,000 + €22,500 licence = **€27,500** |
 
-By Month 24, 121.ai is facilitating **€7M/month in community loans** — a credible and defensible number for the Irish market.
+**Year 2 monthly run rate: ~€27,500/month**  
+**Year 2 ARR: ~€330,000**
 
----
+This is deliberately conservative. 25 communities in 24 months requires a team of students to consistently close enterprise deals while building the product. Whether 25 or 15, the model is cash-generative by Month 13 and self-sustaining by Month 18.
 
-## 5. Valuation Methodology
+### 4.4 Gross Merchandise Value (GMV) — Loan Volume on Platform
 
-### 5.1 Revenue Multiple Approach (Primary)
+GMV is the total value of loans moving through the platform. It is the primary health metric for any lending marketplace.
 
-The most common valuation method for early-stage fintech platforms is a multiple on forward ARR (Annual Recurring Revenue).
-
-| Scenario | Year 2 ARR | Multiple | Implied Valuation |
+| Timeframe | Active Loans | Avg Loan | Monthly GMV |
 |---|---|---|---|
-| Conservative | €320,000 | 6x | €1.92M |
-| Base Case | €537,000 | 8x | **€4.3M** |
-| Optimistic | €750,000 | 10x | €7.5M |
+| Month 6 | 70 | €5,000 | €350,000 |
+| Month 12 | 220 | €5,000 | €1.1M |
+| Month 18 | 450 | €5,000 | €2.25M |
+| Month 24 | 800 | €5,000 | €4.0M |
 
-**Benchmark:** Linked Finance (Ireland's largest P2P platform) raised at ~5–8x revenue. Grid Finance (community-focused) raised at similar multiples. 121.ai's B2B2C model and locked-in enterprise clients justify a premium multiple vs. open P2P platforms.
-
-**Applied valuation at Dragon's Den pitch (pre-revenue, MVP stage):** Apply a discount of ~40–50% to the base case (early stage risk adjustment):  
-→ **€2.1M – €2.5M implied valuation**
-
-### 5.2 Comparable Transaction Approach
-
-| Company | Country | Model | Funding / Valuation | What It Tells Us |
-|---|---|---|---|---|
-| Linked Finance | Ireland | P2P (SME) | €5M raised; €250M+ facilitated | Irish market absorbs real P2P volume |
-| Bondora | Estonia | Open P2P (retail) | €3B+ facilitated; €300M+ valuation | Scale possible in EU P2P |
-| Flender | Ireland | P2P SME | Acquired by Caple; €50M facilitated | Closed-community P2P achieves exits |
-| Zopa (UK) | UK | P2P / neobank | £6B+ facilitated; valued £750M | P2P grows into banking platform |
-| Iwoca | UK | SME lending | £600M+ raised; valued £1B | Community-trusted lending wins |
-
-**Conclusion:** The comparable set confirms that P2P platforms operating in regulated EU markets with community trust mechanics achieve significant valuations. 121.ai's unique closed-community model, credit-invisible niche, and enterprise B2B2C structure are differentiators that command a premium over generic P2P.
-
-### 5.3 Asset / Strategic Value Approach (Supporting Argument)
-
-121.ai generates a **data asset** that is not captured in the revenue model above but is of growing strategic value:
-
-| Data Asset | Description | Strategic Buyer | Estimated Value (Year 3) |
-|---|---|---|---|
-| Credit identity profiles | Verified financial behaviour for credit-invisible individuals | Banks, credit bureaus, government | €50–€200 per unique verified user |
-| Repayment behaviour data | Community-level default/recovery patterns | Insurance companies, risk platforms | €500K–€2M licensing deal |
-| Community trust scores | Aggregated creditworthiness by demographic/org type | FinTech B2B platforms | Partnership value |
-
-At 10,000 verified users with credit history (Year 2–3): the raw data asset is worth **€500K–€2M** in B2B licensing alone — not counted in the core model, but real optionality for a buyer or later-round investor.
+By Month 24, 121.ai is facilitating **€4M per month in community loans** — a credible number for a 25-community Irish network.
 
 ---
 
-## 6. Growth Hypotheses & Stress Test
+## 5. The Hidden Asset — Credit Identity Data
 
-### 6.1 Core Hypotheses (Each Must Hold)
+This is not counted in the revenue model above. It is strategic optionality that a sophisticated investor will recognise.
 
-| # | Hypothesis | Evidence / Basis |
+Every loan repaid by a previously credit-invisible user generates something that did not exist before: **a verified, structured financial behaviour record**. This record has downstream value to:
+
+| Buyer | What They Want | Value Signal |
 |---|---|---|
-| H1 | 10% of community members become active borrowers within 6 months of platform launch | Bondora data shows 8–15% utilisation in trusted networks; Linked Finance reports similar |
-| H2 | Enterprises sign 12-month platform agreements at €750–€1,500/month | SaaS B2B benchmarks for vertical fintech; equivalent to 1–2 employee salaries worth of admin saved |
-| H3 | Average loan size is €5,000 | Irish CSO 2024: median personal loan €4,800; community loans cluster around median |
-| H4 | Borrower interest rate of 10% is accepted | Bank personal loan rates in Ireland: 8.5–13.9% (BPFI 2024); 10% is below bank = compelling |
-| H5 | Platform churn (enterprise exits) is below 15% annually | B2B SaaS benchmark: 10–20% annual churn for enterprise software; community lock-in reduces this |
-| H6 | 40 enterprise communities reachable in Ireland by Month 24 | Ireland has 12,000+ enterprises with 100+ employees; 40 = 0.33% penetration — trivially achievable |
+| Banks / credit unions | "New to bank" customer pipeline — pre-qualified, with a repayment track record | €100–€500 per verified new customer (industry benchmark for new-to-bank acquisition) |
+| Central Bank / Government | Actual repayment behaviour data for populations absent from national registers | Policy research, financial inclusion mandates |
+| Insurance companies | Behavioural creditworthiness data for underwriting | B2B licensing deal potential |
 
-### 6.2 Downside Scenario — What If Growth Is Half?
+At 10,000 verified users with a repayment history by Year 3 — a **conservative** estimate for 25 enterprise communities — the raw data asset value is **€1M–€5M in strategic licensing potential**. This is not in our base revenue model. It is upside.
 
-If acquisition takes twice as long and loan utilisation is 5% instead of 10%:
+---
 
-| Metric | Base | Downside |
+## 6. Use of the €75,000
+
+We are not asking for capital to fund salaries or to scale marketing. We are asking for capital to **reach the first three commercial milestones** that transform 121.ai from a hackathon project into a regulated, deployable product.
+
+| Use | Amount | Outcome It Funds |
 |---|---|---|
-| Communities at Month 24 | 40 | 20 |
-| Active loans at Month 24 | 1,400 | 400 |
-| Monthly GMV | €7M | €2M |
-| Monthly Revenue | €44,750 | €15,000 |
-| Year 2 ARR | €537,000 | €180,000 |
-| Implied valuation (8x) | €4.3M | €1.44M |
+| Regulatory preparation (ECSPR pre-application legal review) | €25,000 | Central Bank of Ireland authorisation pathway confirmed; compliance roadmap in hand |
+| Stripe Identity + Central Credit Register API integration | €18,000 | Real KYC layer live — not simulated. Platform becomes defensible to enterprise clients |
+| First 3 enterprise pilots (onboarding, incentives, support) | €20,000 | Proof that communities deploy and members borrow. First real revenue. First credibility data. |
+| Cloud infrastructure + security hardening | €12,000 | Production deployment — not a demo server. GDPR-compliant data handling in place. |
+| **Total** | **€75,000** | |
 
-Even in the downside case, the company is worth **€1.4M+ at Year 2** — supporting the €2.5M Day 0 valuation ask as reasonably de-risked.
-
----
-
-## 7. Why 121.ai Commands a Premium
-
-### 7.1 The Credit-Invisible Angle Is Unique
-
-An estimated **6+ million EU residents have no credit history** (Eurostat 2023). In Ireland alone:
-
-- ~660,000 non-Irish nationals (CSO 2022) — 13% of population
-- ~40,000+ international students
-- Many are first-time workers unable to access mortgages, car loans, or bank products
-
-**121.ai is the only closed-community P2P platform in Ireland specifically designed to let these individuals build a verifiable financial identity — within a trusted group, with a real lender on the other side, and a structured repayment record that banks and government can eventually use.**
-
-This is not a nice-to-have. It is:
-- A policy gap governments need filled
-- A customer acquisition channel banks will pay for
-- A regulatory priority under ECSPR and EU Financial Inclusion mandates
-
-### 7.2 The Closed-Community Model Is Defensible
-
-Open P2P platforms (Bondora, Mintos) compete on rate. 121.ai competes on **trust and access**. Once a community deploys 121.ai:
-
-- Members' financial data is inside the platform
-- Social accountability reinforces repayment (you're borrowing from a colleague, not a stranger)
-- The enterprise client becomes a distribution partner, not just a customer
-- Switching cost is high: losing the platform means losing their community's financial history
-
-This creates **enterprise stickiness** that open P2P can never replicate.
-
-### 7.3 Regulatory Path Is Identified
-
-121.ai operates under ECSPR (European Crowdfunding Service Provider Regulation), passportable across all EU member states from a single Irish authorisation. This means:
-
-- One regulatory approval unlocks 27 EU markets
-- Ireland's CBI (Central Bank of Ireland) is the authorising body
-- 121.ai has scoped minimum capital requirements: **€120K operating capital, €250K recommended for sustainable launch**
-- This is achievable post-Dragon's Den funding
+Every euro above is accounted for. None of it is for "growth" or "team" — it is for the three things that turn a student project into something an enterprise would trust.
 
 ---
 
-## 8. The Dragon's Den Pitch Number
+## 7. What We Are Asking For Beyond the Cheque
 
-### Recommended Valuation
+This is a Dragon's Den room of people who have built companies. That is worth more than capital.
 
-| Valuation Anchor | Amount | Rationale |
+We are not just asking for €75,000. We are asking for a **strategic partner** who can:
+
+- Make one introduction to a Dublin MNC or university that becomes our first pilot community
+- Advise on the regulatory conversation with the Central Bank of Ireland
+- Validate the product to the next round of investors — a credible name on the cap table matters
+
+If the right person writes this cheque, the €75,000 is almost secondary. The network and signal are the real return multiplier — for us and for them.
+
+---
+
+## 8. Downside Scenario — Stress Test
+
+We do not ask investors to assume the best case. If growth is half the projected rate:
+
+| Metric | Base Case | Downside (50% slower) |
 |---|---|---|
-| Implied company valuation | **€2.5M** | Midpoint between €1.92M downside and €4.3M base case; accounts for pre-revenue stage |
-| Equity offered | **10%** | Standard for seed-stage fintech with IP filed |
-| Ask | **€250,000** | Covers 12 months of operating costs post-MVP |
+| Communities at Month 24 | 25 | 12 |
+| Active loans | 800 | 350 |
+| Monthly revenue at Month 24 | €27,500 | €11,500 |
+| Year 2 ARR | €330,000 | €138,000 |
+| Implied valuation (6x ARR) | €1.98M | €828,000 |
 
-### What the €250,000 Covers
+Even in the downside case, the company is worth **€828,000 at Year 2** — slightly above our Day 0 entry valuation of €750,000. The investor does not lose money even if growth stalls at half the projected pace.
 
-| Use of Funds | Amount | Purpose |
+---
+
+## 9. Valuation Summary
+
+| Method | Result | Weight |
 |---|---|---|
-| Regulatory licensing (ECSPR application) | €80,000 | Central Bank of Ireland application + legal |
-| Cloud infrastructure + security hardening | €40,000 | Production deployment, AML, GDPR compliance |
-| Enterprise sales (first 10 communities) | €60,000 | Business development, pilot incentives |
-| Stripe Identity + CCR API integration | €20,000 | Real KYC layer |
-| Runway / team (6 months) | €50,000 | Core team operational costs |
+| Berkus Method (primary) | €625,000 → rounded to €750,000 with IP adjustment | Primary anchor |
+| Year 2 ARR multiple (6x, conservative) | €1.98M | Supporting upside |
+| Year 2 ARR multiple, downside (6x) | €828,000 | Downside floor |
+| Comparable (Linked Finance early stage) | ~€1M–€2M at similar GMV | Comparable check |
 
-### What the Investor Gets
+**Pre-money valuation: €750,000**  
+**Ask: €75,000 for 10% equity**  
+**Post-money valuation: €825,000**
 
-- **10% of a fintech platform** at the earliest possible stage — before Series A premium
-- **Entry into the EU credit-invisible market** — a structural, policy-mandated gap that will be filled with or without this investment; the question is who fills it
-- **Upside to data licensing** — not in the base case projections, but real and growing
-- **Strategic acquisition target** — for any Irish bank, credit union, or EU fintech looking to own a community-lending distribution channel
+An investor who enters at €750,000 pre-money and exits at a conservative Year 2 valuation of €1.98M makes **2.6x**. If 121.ai reaches even a modest EU expansion by Year 3, the comparable set (Bondora, Linked Finance, Iwoca) suggests an exit at €5M–€10M — a **6.5x–13x** return on a €75,000 entry.
 
 ---
 
-## 9. Month-by-Month Valuation Trajectory
+## 10. One Paragraph Summary for the Room
 
-As 121.ai hits milestones, the implied company valuation grows on a step-function basis (typical for pre-revenue startups):
-
-| Milestone | Timeline | Implied Valuation |
-|---|---|---|
-| MVP live + 1 pilot community | Month 3 | €1.5M |
-| 3 communities, first €1K/month revenue | Month 6 | €2.0M |
-| 10 communities, €2K/month revenue | Month 12 | €3.0M–€3.5M |
-| 20 communities + enterprise licence live | Month 18 | €5.0M–€6.0M |
-| 40 communities + EU pilot | Month 24 | €8.0M–€12.0M |
-| 100 communities, 2 EU markets | Month 36 | €20M–€30M |
-
-These are **milestone-based valuations** — each step requires delivering the prior one. A Dragon's Den investor who enters at €2.5M (Day 0) and exits at Month 18 (€5M) makes **2x**. At Month 36 (€20M), they make **8x**. These are realistic fintech returns, not fantasy.
+121.ai is a closed-community peer-to-peer lending platform. We deploy inside companies and universities — connecting employees and students who need short-term loans with peers who have money sitting idle. Every community we deploy in has members who are financially invisible: no credit history, no access to mainstream finance, no way in. We fix that. We are pre-revenue, we have a working product, we have filed IP, and we have a clear regulatory path under ECSPR. We are asking for €75,000 for 10% of LendLoop — the company behind 121.ai — at a pre-money valuation of €750,000. We need a strategic partner who has been in this room before and knows how to open the first door. The money gets us to our first three enterprise pilots and our first regulatory milestone. Everything after that we earn.
 
 ---
 
-## 10. Summary
-
-121.ai by LendLoop is entering a market with:
-- A structural gap (credit-invisible population)
-- A regulatory framework in place (ECSPR)
-- No direct Irish closed-community P2P competitor
-- A B2B2C model that turns enterprises into distribution partners
-- A data asset that compounds in value every month a user repays a loan
-
-The valuation of **€2.5M** at MVP stage is not aggressive — it is the floor of what a fintech platform with this combination of IP, market positioning, and regulatory alignment should command at Day 0.
-
-The monthly revenue model shows a **clear path from €94/month to €44,750/month within 24 months**. At Year 2 ARR of €537K, applying a conservative 8x multiple gives **€4.3M** — already 72% above the Dragon's Den entry valuation, before the data licensing story or EU expansion is counted.
-
----
-
-*Document prepared by the LendLoop team. All market data sourced from Central Bank of Ireland, CSO Ireland, KPMG FinTech Pulse 2024, and EU P2P lending association benchmarks.*
+*Document prepared by the LendLoop team. Market data sourced from Central Bank of Ireland, CSO Ireland, KPMG FinTech Pulse 2024, World Bank Financial Inclusion Data 2022, and Banking & Payments Federation Ireland (BPFI) 2024.*
