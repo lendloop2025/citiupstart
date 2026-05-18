@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}121.ai{% endblock %} — LendLoop</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="{{ url_for('core.landing') }}" class="nav-brand">
+        <span class="brand-primary">121</span><span class="brand-accent">.ai</span>
+      </a>
+      <div class="nav-links">
+        {% if session.get('user_id') %}
+          <span class="nav-user">
+            <span class="nav-user-name">{{ session.get('full_name', '').split()[0] }}</span>
+            <span class="badge badge-{{ 'blue' if session.get('role') == 'lender' else 'green' }}">
+              {{ session.get('role', '').capitalize() }}
+            </span>
+          </span>
+          {% if session.get('role') == 'lender' %}
+            <a href="{{ url_for('lender.dashboard') }}" class="nav-link-desktop">Dashboard</a>
+          {% else %}
+            <a href="{{ url_for('borrower.dashboard') }}" class="nav-link-desktop">Dashboard</a>
+          {% endif %}
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-outline btn-sm">Log out</a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="nav-link-desktop">Log in</a>
+          <a href="{{ url_for('auth.signup') }}" class="btn btn-primary btn-sm">Get Started</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <span class="footer-brand">121.ai by <strong>LendLoop</strong></span>
+      <span class="footer-copy">© 2026 LendLoop · Community-first peer-to-peer lending</span>
+    </div>
+  </footer>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

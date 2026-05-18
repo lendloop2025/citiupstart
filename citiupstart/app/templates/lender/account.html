@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('lender.dashboard') }}" class="sidebar-link">Dashboard</a>
+      <a href="{{ url_for('lender.deposit') }}" class="sidebar-link">Deposit Funds</a>
+      <a href="{{ url_for('lender.borrowers') }}" class="sidebar-link">Browse Borrowers</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Activity</div>
+      <a href="#" class="sidebar-link">My Loans</a>
+      <a href="#" class="sidebar-link">Transactions</a>
+      <a href="#" class="sidebar-link">Returns</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('lender.account') }}" class="sidebar-link active">My Account</a>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+
+    <div class="page-header">
+      <h1 class="page-title">My Account</h1>
+      <p class="page-subtitle">{{ profile.full_name if profile else session.get('full_name') }}</p>
+    </div>
+
+    <!-- Financial stats -->
+    <div class="stats-grid" style="margin-bottom: 28px;">
+      <div class="stat-card">
+        <div class="stat-label">Available Balance</div>
+        <div class="stat-value green">€{{ '%.2f'|format(lender.available_balance if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Deposited</div>
+        <div class="stat-value">€{{ '%.2f'|format(lender.total_deposited if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Lent Out</div>
+        <div class="stat-value">€{{ '%.2f'|format(lender.total_lent if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Interest Earned</div>
+        <div class="stat-value green">€{{ '%.2f'|format(lender.total_earned_interest if lender else 0) }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Loans</div>
+        <div class="stat-value">{{ lender.active_loans if lender else 0 }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Completed Loans</div>
+        <div class="stat-value">{{ lender.completed_loans if lender else 0 }}</div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+      <!-- Account info -->
+      <div class="card">
+        <div class="section-heading" style="margin-bottom: 16px;">Account Details</div>
+        <table class="info-table">
+          <tr>
+            <td>Full Name</td>
+            <td>{{ profile.full_name if profile else '—' }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ user.email if user else '—' }}</td>
+          </tr>
+          <tr>
+            <td>Member Since</td>
+            <td>{{ user.created_at.strftime('%d %b %Y') if user and user.created_at else '—' }}</td>
+          </tr>
+          <tr>
+            <td>Role</td>
+            <td><span class="badge badge-blue">Lender</span></td>
+          </tr>
+          <tr>
+            <td>Total Loans Given</td>
+            <td>{{ lender.total_loans_given if lender else 0 }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="card" style="background: var(--surface-2);">
+        <div class="section-heading" style="margin-bottom: 16px;">Quick Actions</div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="{{ url_for('lender.deposit') }}" class="btn btn-primary">Deposit More Funds</a>
+          <a href="{{ url_for('lender.borrowers') }}" class="btn btn-outline">Browse Borrowers</a>
+        </div>
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+          <div style="font-size: 0.78rem; color: var(--text-subtle); line-height: 1.6;">
+            LendLoop earns 15% of the interest paid by borrowers.
+            This is deducted automatically from each repayment.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction history -->
+    <div class="section-header">
+      <span class="section-heading">Recent Transactions</span>
+    </div>
+    <div class="card" style="margin-top: 16px; padding: 0; overflow: hidden;">
+      {% if transactions %}
+      <table class="tx-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Balance After</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tx in transactions %}
+          <tr>
+            <td>
+              <span class="tx-type tx-{{ tx.transaction_type.split('_')[0] }}">
+                {{ tx.transaction_type.replace('_', ' ') }}
+              </span>
+            </td>
+            <td style="font-weight: 700; color: {{ 'var(--green)' if tx.transaction_type == 'deposit' else 'var(--text)' }};">
+              {% if tx.transaction_type == 'deposit' %}+{% endif %}€{{ '%.2f'|format(tx.amount) }}
+            </td>
+            <td style="color: var(--text-muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ tx.description or '—' }}
+            </td>
+            <td>€{{ '%.2f'|format(tx.balance_after) if tx.balance_after is not none else '—' }}</td>
+            <td style="color: var(--text-muted);">
+              {{ tx.created_at.strftime('%d %b %Y') if tx.created_at else '—' }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-state-title">No transactions yet</div>
+        <p class="empty-state-text">Your transaction history will appear here once you deposit funds.</p>
+        <a href="{{ url_for('lender.deposit') }}" class="btn btn-primary">Make First Deposit</a>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

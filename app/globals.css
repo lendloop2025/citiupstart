@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+:root {
+  /* Surfaces & backgrounds */
+  --bg: #FBFAF7;
+  --bg-alt: #F1EFEA;
+  --bg-subtle: #F1EFEA;
+  --surface: #FFFFFF;
+  --surface-alt: #F1EFEA;
+  --surface-elev: #FFFFFF;
+
+  /* Ink / text */
+  --ink: #0E1B2C;
+  --ink-muted: #4A5568;
+  --ink-subtle: #8A94A6;
+  --fg: #0E1B2C;
+  --fg-muted: #4A5568;
+  --fg-subtle: #8A94A6;
+
+  /* Borders */
+  --border: #E4E1DA;
+  --border-strong: #C9C5BC;
+
+  /* Brand — confident electric blue */
+  --brand: #1E40FF;
+  --brand-hover: #1735D9;
+  --brand-soft: #E8ECFF;
+  --brand-fg: #FFFFFF;
+
+  /* Compatibility aliases for existing markup */
+  --primary: #1E40FF;
+  --primary-hover: #1735D9;
+  --primary-fg: #FFFFFF;
+  --primary-soft: #E8ECFF;
+
+  /* Accent / status */
+  --accent: #FF6B4A;
+  --accent-soft: #FFE7DF;
+  --success: #2D8F5C;
+  --warning: #D9A100;
+  --danger: #C8302A;
+  --error: #C8302A;
+
+  --muted: var(--fg-muted);
+  --card: var(--surface);
+
+  /* Inverted (dark) sections — hero, footer */
+  --ink-dark-bg: #0E1B2C;
+  --ink-dark-fg: #FBFAF7;
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(14, 27, 44, 0.04);
+  --shadow-md: 0 8px 24px rgba(14, 27, 44, 0.06);
+  --shadow-lg: 0 24px 64px rgba(14, 27, 44, 0.10);
+  --shadow-glow: 0 0 0 4px rgba(30, 64, 255, 0.18);
+
+  --motion: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Type scale */
+  --text-display-xl: 72px;
+  --text-display: 56px;
+  --text-h1: 40px;
+  --text-h2: 28px;
+  --text-h3: 20px;
+  --text-body: 16px;
+  --text-sm: 14px;
+  --text-xs: 12px;
+
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-serif: var(--font-fraunces), "Fraunces", ui-serif, Georgia, serif;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.02em;
+}
+
+.tabular { font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+textarea, select {
+  background: var(--surface);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: var(--text-body);
+  width: 100%;
+  outline: none;
+  height: 44px;
+  transition: border-color var(--motion), box-shadow var(--motion);
+  color: var(--fg);
+}
+
+textarea { height: auto; min-height: 88px; padding: 12px 14px; }
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--brand);
+  box-shadow: var(--shadow-glow);
+}
+
+input[disabled], textarea[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--surface-alt);
+}
+
+input[type="range"] {
+  accent-color: var(--brand);
+  width: 100%;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  accent-color: var(--brand);
+}
+
+label { color: var(--fg-muted); font-weight: 500; font-size: var(--text-sm); display: block; margin-bottom: 6px; }
+
+button {
+  cursor: pointer;
+  transition: background var(--motion), color var(--motion), border-color var(--motion), box-shadow var(--motion), transform var(--motion);
+}
+button:disabled { cursor: not-allowed; opacity: 0.5; }
+button:focus-visible { box-shadow: var(--shadow-glow); outline: none; }
+
+a { transition: color var(--motion); }
+
+.card-hover {
+  transition: transform var(--motion), box-shadow var(--motion), border-color var(--motion);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+::selection { background: var(--brand-soft); color: var(--ink); }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fade-in 200ms cubic-bezier(0.4, 0, 0.2, 1); }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide-up { animation: slide-up 320ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+/* Utility: subtle grid overlay for dark hero sections */
+.bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.font-serif { font-family: var(--font-serif); letter-spacing: -0.025em; }
