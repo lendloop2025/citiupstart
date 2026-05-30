@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Deposit Funds{% endblock %}
+
+{% block content %}
+<div class="deposit-page">
+
+  <div style="margin-bottom: 28px;">
+    <a href="{{ url_for('lender.dashboard') }}" style="font-size:0.85rem; color:var(--text-muted);">
+      ← Back to Dashboard
+    </a>
+    <h1 class="form-title" style="margin-top: 12px;">Deposit Funds</h1>
+    <p class="form-subtitle">
+      Add capital to your lending balance. All deposits are simulated for demo purposes.
+    </p>
+  </div>
+
+  <!-- Current balance card -->
+  <div class="card" style="margin-bottom: 20px; background: var(--surface-2);">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <div class="stat-label">Current Available Balance</div>
+        <div class="stat-value green">€{{ '%.2f'|format(lender.available_balance if lender else 0) }}</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="stat-label">Total Deposited</div>
+        <div class="stat-value">€{{ '%.2f'|format(lender.total_deposited if lender else 0) }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <form method="POST" action="{{ url_for('lender.deposit') }}" novalidate>
+
+      <div class="form-group">
+        <label class="form-label">Deposit Amount (€) <span style="color:var(--red)">*</span></label>
+        <input type="number" name="amount" class="form-input"
+               placeholder="e.g. 1000.00" min="10" step="0.01"
+               required autofocus>
+        <p class="form-hint">Minimum €10. Funds are available instantly after deposit.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Payment Method</label>
+        <select name="method" class="form-input">
+          <option value="bank_transfer">Bank Transfer</option>
+          <option value="card">Debit / Credit Card</option>
+        </select>
+        <p class="form-hint">
+          Payment processing is simulated for the MLP demo. No real funds are transferred.
+        </p>
+      </div>
+
+      <div style="display:flex; gap:12px; margin-top: 8px;">
+        <button type="submit" class="btn btn-primary">Confirm Deposit</button>
+        <a href="{{ url_for('lender.dashboard') }}" class="btn btn-outline">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="card" style="margin-top: 16px; background: var(--amber-dim); border-color: rgba(245,158,11,0.2);">
+    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.7;">
+      <strong style="color: var(--amber);">Demo mode:</strong>
+      This is a simulated deposit. In production, this would connect to a real payment gateway
+      (Stripe, bank transfer API). Your balance will update immediately in the platform.
+    </div>
+  </div>
+
+</div>
+{% endblock %}

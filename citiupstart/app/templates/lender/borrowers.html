@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Browse Borrowers{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('lender.dashboard') }}" class="sidebar-link">Dashboard</a>
+      <a href="{{ url_for('lender.deposit') }}" class="sidebar-link">Deposit Funds</a>
+      <a href="{{ url_for('lender.borrowers') }}" class="sidebar-link active">Browse Borrowers</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Activity</div>
+      <a href="#" class="sidebar-link">My Loans</a>
+      <a href="#" class="sidebar-link">Transactions</a>
+      <a href="#" class="sidebar-link">Returns</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('lender.account') }}" class="sidebar-link">My Account</a>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+
+    <div class="listing-header">
+      <div>
+        <h1 class="page-title">Community Borrowers</h1>
+        <p class="listing-count">
+          {{ loan_requests|length }} active loan request{{ 's' if loan_requests|length != 1 }} in your community
+        </p>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <form method="GET" class="filter-bar">
+      <label>Min Score:</label>
+      <select name="min_score" class="filter-select" onchange="this.form.submit()">
+        <option value="0"  {% if min_score == 0  %}selected{% endif %}>Any</option>
+        <option value="40" {% if min_score == 40 %}selected{% endif %}>40+</option>
+        <option value="55" {% if min_score == 55 %}selected{% endif %}>55+</option>
+        <option value="70" {% if min_score == 70 %}selected{% endif %}>70+</option>
+        <option value="85" {% if min_score == 85 %}selected{% endif %}>85+</option>
+      </select>
+      <label style="margin-left: 8px;">Purpose:</label>
+      <select name="purpose" class="filter-select" onchange="this.form.submit()">
+        <option value="" {% if not purpose %}selected{% endif %}>All</option>
+        {% for p in ['Business', 'Education', 'Medical', 'Home Improvement', 'Other'] %}
+          <option value="{{ p }}" {% if purpose == p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+      {% if min_score or purpose %}
+        <a href="{{ url_for('lender.borrowers') }}" class="btn btn-outline btn-sm">Clear</a>
+      {% endif %}
+    </form>
+
+    {% if loan_requests %}
+    <div class="cards-grid">
+      {% for r in loan_requests %}
+        {% set score = r.credibility_score %}
+        {% set score_css = 'green' if score >= 70 else ('amber' if score >= 40 else 'red') %}
+      <div class="borrower-card">
+        <div class="card-top">
+          <div class="avatar avatar-{{ score_css }}">{{ r.full_name[0] }}</div>
+          <div>
+            <div class="card-name">{{ r.full_name }}</div>
+            <div class="card-meta">
+              {{ r.on_time_payments }} on-time ·
+              {% if r.defaulted_loans > 0 %}
+                <span style="color:var(--red)">{{ r.defaulted_loans }} default</span>
+              {% else %}
+                No defaults
+              {% endif %}
+            </div>
+          </div>
+          <div style="margin-left:auto;">
+            <span class="score-pill {{ score_css }}">{{ score }}</span>
+          </div>
+        </div>
+
+        <div class="card-stats">
+          <div class="card-stat">
+            <div class="card-stat-label">Amount</div>
+            <div class="card-stat-value">€{{ '{:,.0f}'.format(r.amount) }}</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Purpose</div>
+            <div class="card-stat-value" style="font-size:0.85rem;">{{ r.purpose }}</div>
+          </div>
+          <div class="card-stat">
+            <div class="card-stat-label">Duration</div>
+            <div class="card-stat-value">{{ r.duration_months }}mo</div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size: 0.75rem; color: var(--text-subtle);">
+            Posted {{ r.created_at.strftime('%d %b %Y') if r.created_at else '' }}
+          </span>
+          <a href="{{ url_for('lender.borrower_profile', borrower_id=r.borrower_id) }}"
+             class="btn btn-primary btn-sm">View Profile</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="card">
+      <div class="empty-state">
+        <div class="empty-state-icon">&#9741;</div>
+        <div class="empty-state-title">No loan requests yet</div>
+        <p class="empty-state-text">
+          {% if min_score or purpose %}
+            No borrowers match your current filters. Try adjusting the score or purpose filter.
+          {% else %}
+            No borrowers in your community have posted loan requests yet.
+            Check back soon.
+          {% endif %}
+        </p>
+        {% if min_score or purpose %}
+          <a href="{{ url_for('lender.borrowers') }}" class="btn btn-outline">Clear Filters</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

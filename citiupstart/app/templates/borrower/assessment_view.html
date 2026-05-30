@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}My Credibility Score{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Main</div>
+      <a href="{{ url_for('borrower.dashboard') }}" class="sidebar-link">Dashboard</a>
+      <a href="{{ url_for('borrower.assessment') }}" class="sidebar-link">My Assessment</a>
+      <a href="{{ url_for('borrower.new_request') }}" class="sidebar-link">Post Loan Request</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Activity</div>
+      <a href="#" class="sidebar-link">My Offers</a>
+      <a href="#" class="sidebar-link">Repayments</a>
+      <a href="#" class="sidebar-link">Credit History</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Community</div>
+      <a href="{{ url_for('borrower.lenders') }}" class="sidebar-link">Browse Lenders</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Account</div>
+      <a href="{{ url_for('auth.logout') }}" class="sidebar-link">Log Out</a>
+    </div>
+  </aside>
+
+  <div class="dashboard-main">
+    <div class="page-header">
+      <h1 class="page-title">Your Credibility Score</h1>
+      <p class="page-subtitle">Calculated from your assessment submission</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; margin-bottom: 24px;">
+
+      <!-- Score display -->
+      <div class="card" style="text-align: center;">
+        <div class="score-circle-wrap">
+          <div class="score-circle {{ label.css }}">
+            <span class="score-circle-num">{{ borrower.credibility_score }}</span>
+            <span class="score-circle-denom">/100</span>
+          </div>
+          <span class="score-circle-label {{ label.css }}">{{ label.label }}</span>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+          Lenders in your community can see this score when you post a loan request.
+        </p>
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+          <a href="{{ url_for('borrower.new_request') }}" class="btn btn-primary btn-block">
+            Post a Loan Request
+          </a>
+          <a href="{{ url_for('borrower.assessment') }}" class="btn btn-outline btn-block">
+            Update Assessment
+          </a>
+        </div>
+      </div>
+
+      <!-- Score breakdown -->
+      <div class="card">
+        <div class="section-heading" style="margin-bottom: 20px;">Score Breakdown</div>
+        <div class="score-breakdown">
+
+          {% set rows = [
+            ('Identity Verification', borrower.identity_verification_score, 20),
+            ('Financial Strength',    borrower.financial_strength_score,    30),
+            ('Credit History',        borrower.credit_history_score,        25),
+            ('Stability',             borrower.stability_score,             15),
+            ('Platform Reputation',   borrower.platform_reputation_score,   10),
+          ] %}
+
+          {% for label_text, pts, max_pts in rows %}
+            {% set pct = (pts / max_pts * 100)|round|int %}
+            {% set bar_css = 'green' if pct >= 70 else ('amber' if pct >= 40 else 'red') %}
+            <div class="score-row">
+              <div class="score-row-label">{{ label_text }}</div>
+              <div class="score-bar-track">
+                <div class="score-bar-fill {{ bar_css }}" style="width: {{ pct }}%"></div>
+              </div>
+              <div class="score-row-pts">{{ pts }}/{{ max_pts }}</div>
+            </div>
+          {% endfor %}
+
+        </div>
+
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+          <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+            <span style="font-weight: 700; color: var(--text);">Total</span>
+            <span style="font-weight: 800; font-size: 1.1rem; color: var(--{{ 'green' if borrower.credibility_score >= 55 else ('amber' if borrower.credibility_score >= 40 else 'red') }});">
+              {{ borrower.credibility_score }} / 100
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Assessment snapshot -->
+    {% if assessment %}
+    <div class="card">
+      <div class="section-heading" style="margin-bottom: 16px;">Assessment Summary</div>
+      <table class="info-table">
+        <tr>
+          <td>Employment Status</td>
+          <td>{{ assessment.employment_status or '—' }}</td>
+        </tr>
+        <tr>
+          <td>Salary Band</td>
+          <td>{{ assessment.salary_band or '—' }}</td>
+        </tr>
+        <tr>
+          <td>Loan Purpose</td>
+          <td>{{ assessment.loan_purpose or '—' }}</td>
+        </tr>
+        <tr>
+          <td>Amount Needed</td>
+          <td>{% if assessment.loan_amount_needed %}€{{ '%.0f'|format(assessment.loan_amount_needed) }}{% else %}—{% endif %}</td>
+        </tr>
+        <tr>
+          <td>Government ID</td>
+          <td>{{ '✓ Provided' if assessment.id_type and assessment.id_number else '✗ Not complete' }}</td>
+        </tr>
+        <tr>
+          <td>Reference</td>
+          <td>{{ '✓ Provided' if assessment.reference_name else '✗ Not provided' }}</td>
+        </tr>
+        <tr>
+          <td>Last Updated</td>
+          <td>{{ assessment.updated_at.strftime('%d %b %Y, %H:%M') if assessment.updated_at else '—' }}</td>
+        </tr>
+      </table>
+    </div>
+    {% endif %}
+
+    <!-- Score guide -->
+    <div class="card" style="margin-top: 16px;">
+      <div class="section-heading" style="margin-bottom: 16px;">Score Guide</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+        {% for band, css, desc in [
+          ('85–100', 'green', 'Excellent'),
+          ('70–84',  'green', 'Strong'),
+          ('55–69',  'amber', 'Good'),
+          ('40–54',  'amber', 'Fair'),
+          ('0–39',   'red',   'Poor'),
+        ] %}
+        <div style="text-align: center; padding: 12px; background: var(--surface-2); border-radius: var(--radius-xs);">
+          <div class="score-circle-label {{ css }}" style="font-size: 0.75rem;">{{ desc }}</div>
+          <div style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin-top: 4px;">{{ band }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

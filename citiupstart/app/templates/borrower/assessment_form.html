@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% block title %}Credibility Assessment{% endblock %}
+
+{% block content %}
+<div class="form-full-page">
+<div class="form-wide">
+
+  <div style="margin-bottom: 28px;">
+    <h1 class="form-title">Credibility Assessment</h1>
+    <p class="form-subtitle">
+      Complete all sections to receive your credibility score.
+      All information is kept confidential and only a score summary is shown to lenders.
+    </p>
+  </div>
+
+  <form method="POST" action="{{ url_for('borrower.assessment') }}" novalidate>
+
+    <!-- Section 1: Personal Information -->
+    <div class="form-section">
+      <div class="form-section-header">
+        <div class="form-section-num">1</div>
+        <div>
+          <div class="form-section-title">Personal Information</div>
+          <div class="form-section-desc">Your identity and contact details</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" name="full_name" class="form-input"
+                 value="{{ form.get('full_name') or (profile.full_name if profile else '') }}"
+                 placeholder="As on your government ID">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of Birth</label>
+          <input type="date" name="date_of_birth" class="form-input"
+                 value="{{ form.get('date_of_birth', '') }}">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" name="phone" class="form-input"
+                 value="{{ form.get('phone', '') }}"
+                 placeholder="+353 ...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Years at Current Address</label>
+          <input type="number" name="years_at_address" class="form-input"
+                 value="{{ form.get('years_at_address', 0) }}"
+                 min="0" max="99">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Current Address</label>
+        <input type="text" name="current_address" class="form-input"
+               value="{{ form.get('current_address', '') }}"
+               placeholder="Street, City, County, Eircode">
+      </div>
+    </div>
+
+    <!-- Section 2: Government ID -->
+    <div class="form-section">
+      <div class="form-section-header">
+        <div class="form-section-num">2</div>
+        <div>
+          <div class="form-section-title">Government ID</div>
+          <div class="form-section-desc">Required for identity verification (+10 pts)</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ID Type <span style="color:var(--red)">*</span></label>
+          <select name="id_type" class="form-input" required>
+            <option value="">Select ID type</option>
+            {% for opt in ['Passport', "Driver's Licence", 'National ID'] %}
+              <option value="{{ opt }}"
+                {% if form.get('id_type') == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">ID Number</label>
+          <input type="text" name="id_number" class="form-input"
+                 value="{{ form.get('id_number', '') }}"
+                 placeholder="Document number">
+        </div>
+      </div>
+      <div class="form-group" style="max-width: 240px;">
+        <label class="form-label">ID Expiry Date</label>
+        <input type="date" name="id_expiry" class="form-input"
+               value="{{ form.get('id_expiry', '') }}">
+      </div>
+    </div>
+
+    <!-- Section 3: Employment & Income -->
+    <div class="form-section">
+      <div class="form-section-header">
+        <div class="form-section-num">3</div>
+        <div>
+          <div class="form-section-title">Employment &amp; Income</div>
+          <div class="form-section-desc">Your current employment and income band</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Employment Status <span style="color:var(--red)">*</span></label>
+          <select name="employment_status" id="employment_status" class="form-input" required>
+            <option value="">Select status</option>
+            {% for opt in ['Employed', 'Self-employed', 'Unemployed', 'Student', 'Retired'] %}
+              <option value="{{ opt }}"
+                {% if form.get('employment_status') == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Salary Band</label>
+          <select name="salary_band" class="form-input">
+            <option value="">Select range</option>
+            {% for band in ['Under €10,000', '€10,001–€20,000', '€20,001–€30,000',
+                            '€30,001–€40,000', '€40,001–€60,000', '€60,001–€80,000', 'Over €80,000'] %}
+              <option value="{{ band }}"
+                {% if form.get('salary_band') == band %}selected{% endif %}>{{ band }}</option>
+            {% endfor %}
+          </select>
+          <p class="form-hint">We use income bands, not exact figures, to protect your privacy.</p>
+        </div>
+      </div>
+
+      <!-- Employed fields -->
+      <div id="employed-fields" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <input type="text" name="company_name" class="form-input"
+                   value="{{ form.get('company_name', '') }}"
+                   placeholder="Your employer">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Job Title</label>
+            <input type="text" name="job_title" class="form-input"
+                   value="{{ form.get('job_title', '') }}">
+          </div>
+        </div>
+        <div class="form-group" style="max-width: 240px;">
+          <label class="form-label">Years with Employer</label>
+          <input type="number" name="years_with_employer" class="form-input"
+                 value="{{ form.get('years_with_employer', '') }}"
+                 min="0" max="50">
+        </div>
+      </div>
+
+      <!-- Self-employed fields -->
+      <div id="self-employed-fields" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Business Name</label>
+            <input type="text" name="business_name" class="form-input"
+                   value="{{ form.get('business_name', '') }}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Years in Business</label>
+            <input type="number" name="years_in_business" class="form-input"
+                   value="{{ form.get('years_in_business', '') }}"
+                   min="0" max="50">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Financial Information -->
+    <div class="form-section">
+      <div class="form-section-header">
+        <div class="form-section-num">4</div>
+        <div>
+          <div class="form-section-title">Financial Information</div>
+          <div class="form-section-desc">Existing obligations and credit standing</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Monthly Debt Obligations (€)</label>
+          <input type="number" name="monthly_debt" class="form-input"
+                 value="{{ form.get('monthly_debt', '') }}"
+                 placeholder="0.00" min="0" step="0.01">
+          <p class="form-hint">Total monthly loan/credit payments. Enter 0 if none. Leave blank to skip.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Self-Reported Credit Score <em style="font-weight:400">(optional)</em></label>
+          <input type="number" name="self_reported_credit_score" class="form-input"
+                 value="{{ form.get('self_reported_credit_score', '') }}"
+                 placeholder="e.g. 680" min="300" max="850">
+          <p class="form-hint">From your bank or Credit Bureau. Not required.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Loan Intent -->
+    <div class="form-section">
+      <div class="form-section-header">
+        <div class="form-section-num">5</div>
+        <div>
+          <div class="form-section-title">Loan Intent</div>
+          <div class="form-section-desc">What you plan to borrow for</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Loan Purpose <span style="color:var(--red)">*</span></label>
+          <select name="loan_purpose" class="form-input" required>
+            <option value="">Select purpose</option>
+            {% for opt in ['Business', 'Education', 'Medical', 'Home Improvement', 'Other'] %}
+              <option value="{{ opt }}"
+                {% if form.get('loan_purpose') == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Duration (months)</label>
+          <select name="preferred_duration_months" class="form-input">
+            <option value="">Select duration</option>
+            {% for m in [3, 6, 12, 18, 24, 36] %}
+              <option value="{{ m }}"
+                {% if form.get('preferred_duration_months')|string == m|string %}selected{% endif %}>
+                {{ m }} months
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Approximate Amount Needed (€)</label>
+        <input type="number" name="loan_amount_needed" class="form-input"
+               value="{{ form.get('loan_amount_needed', '') }}"
+               placeholder="e.g. 2500" min="100" step="50">
+      </div>
+    </div>
+
+    <!-- Section 6: References -->
+    <div class="form-section">
+      <div class="form-section-header">
+        <div class="form-section-num">6</div>
+        <div>
+          <div class="form-section-title">Personal Reference</div>
+          <div class="form-section-desc">Someone who can vouch for you (+3 pts)</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Reference Name</label>
+          <input type="text" name="reference_name" class="form-input"
+                 value="{{ form.get('reference_name', '') }}"
+                 placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Relationship</label>
+          <input type="text" name="reference_relationship" class="form-input"
+                 value="{{ form.get('reference_relationship', '') }}"
+                 placeholder="e.g. Colleague, Friend">
+        </div>
+      </div>
+      <div class="form-group" style="max-width: 280px;">
+        <label class="form-label">Reference Phone</label>
+        <input type="tel" name="reference_phone" class="form-input"
+               value="{{ form.get('reference_phone', '') }}"
+               placeholder="+353 ...">
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div style="display:flex; gap:12px; align-items:center; margin-top: 8px;">
+      <button type="submit" class="btn btn-primary" style="padding: 12px 32px;">
+        Submit Assessment
+      </button>
+      <a href="{{ url_for('borrower.dashboard') }}" class="btn btn-outline">Cancel</a>
+    </div>
+
+  </form>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const empSelect = document.getElementById('employment_status');
+  const empFields  = document.getElementById('employed-fields');
+  const selfFields = document.getElementById('self-employed-fields');
+
+  function updateFields() {
+    const v = empSelect.value;
+    empFields.style.display  = v === 'Employed'      ? 'block' : 'none';
+    selfFields.style.display = v === 'Self-employed'  ? 'block' : 'none';
+  }
+
+  empSelect.addEventListener('change', updateFields);
+  updateFields();
+</script>
+{% endblock %}

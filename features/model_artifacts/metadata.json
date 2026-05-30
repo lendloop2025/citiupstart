@@ -1,0 +1,60 @@
+{
+  "best_model": "gradient_boosting",
+  "metrics": {
+    "logreg": {
+      "roc_auc": 0.822066011106535,
+      "accuracy": 0.80375,
+      "brier": 0.14149850332372263
+    },
+    "random_forest": {
+      "roc_auc": 0.8354799824732633,
+      "accuracy": 0.813125,
+      "brier": 0.13772097551623141
+    },
+    "gradient_boosting": {
+      "roc_auc": 0.8440966678514139,
+      "accuracy": 0.823125,
+      "brier": 0.1283273677520053
+    }
+  },
+  "training_rows": 8000,
+  "feature_columns": [
+    "identity_verified",
+    "has_irp_or_eu_passport",
+    "email_verified",
+    "has_2fa",
+    "has_student_id",
+    "kyc_documents_approved",
+    "account_age_days",
+    "declared_monthly_income_cents",
+    "verified_monthly_income_cents",
+    "income_verification_age_days",
+    "employment_status_full_time",
+    "employment_status_part_time",
+    "employment_status_student_only",
+    "employment_months",
+    "nci_semesters_completed",
+    "declared_monthly_expenses_cents",
+    "existing_debt_cents",
+    "has_emergency_fund",
+    "wallet_available_cents",
+    "requested_amount_cents",
+    "requested_term_months",
+    "requested_max_apr_bps",
+    "loan_purpose_tuition",
+    "loan_purpose_emergency",
+    "loan_purpose_living_expenses",
+    "loan_purpose_laptop",
+    "loan_purpose_travel",
+    "counter_offer_rounds",
+    "counter_offer_amount_gap_pct",
+    "total_loans_completed",
+    "total_loans_active",
+    "on_time_payment_count",
+    "late_payment_count",
+    "avg_days_late",
+    "defaulted_loan_count",
+    "days_since_last_login"
+  ],
+  "model_version": "ml-v1.0"
+}
